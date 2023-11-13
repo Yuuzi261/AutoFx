@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 from core.classes import Cog_Extension
 import re
@@ -8,7 +7,7 @@ class Event(Cog_Extension):
     @commands.Cog.listener()
     async def on_message(self, msg):
         regex = r'https:\/\/(x\.com|twitter\.com)(\/.*)?'
-        if not re.search(regex, msg.content): return
+        if msg.author.bot or not re.search(regex, msg.content): return
         
         await msg.delete()
         content = msg.content
