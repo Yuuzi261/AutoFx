@@ -10,7 +10,9 @@ class Event(Cog_Extension):
         regex = r'https:\/\/(x\.com|twitter\.com)(\/.*)?'
         if msg.author.bot or not re.search(regex, msg.content): return
         
-        await msg.delete()
+        if type(msg.channel) != discord.Thread or msg.channel.type == discord.ChannelType.stage_voice or msg.channel.parent.type != discord.ChannelType.forum:
+            await msg.delete()
+
         content = msg.content
         while True:
             match = re.search(regex, content)
