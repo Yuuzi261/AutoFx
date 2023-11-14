@@ -28,7 +28,7 @@ class Event(Cog_Extension):
         if not webhook:
             webhook = await msg.channel.create_webhook(name='AutoFx')
             
-        await webhook.send(content=content, username=msg.author.display_name, avatar_url=msg.author.avatar.url)
+        await webhook.send(content=content, username=msg.author.display_name, avatar_url=msg.author.display_avatar.url)
             
 
 async def setup(bot):
