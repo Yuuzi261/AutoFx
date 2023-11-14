@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from core.classes import Cog_Extension
 import re
@@ -27,8 +28,13 @@ class Event(Cog_Extension):
             
         if not webhook:
             webhook = await msg.channel.create_webhook(name='AutoFx')
-            
-        await webhook.send(content=content, username=msg.author.display_name, avatar_url=msg.author.display_avatar.url)
+        
+        if msg.reference:
+            refmsg = await msg.channel.fetch_message(msg.reference.message_id)
+            view = discord.ui.View().add_item(discord.ui.Button(label=f'In reply to {refmsg.author.display_name}', style=discord.ButtonStyle.link, url=refmsg.jump_url))
+            await webhook.send(content=content, username=msg.author.display_name, avatar_url=msg.author.display_avatar.url, view=view)
+        else:
+            await webhook.send(content=content, username=msg.author.display_name, avatar_url=msg.author.display_avatar.url)
             
 
 async def setup(bot):
