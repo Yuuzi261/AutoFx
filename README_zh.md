@@ -16,7 +16,7 @@
 
 ## ✨功能
 
-![](https://i.imgur.com/ggTwHTN.gif)
+![](https://raw.githubusercontent.com/Yuuzi261/AutoFx/main/demo.gif)
 
 ## 🔗邀請至Discord
 
