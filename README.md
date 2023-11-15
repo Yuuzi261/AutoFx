@@ -16,7 +16,7 @@ A discord bot that automatically fixes embeds of twitter links using FixTweet.
 
 ## ✨Features
 
-![](https://i.imgur.com/ggTwHTN.gif)
+![](https://raw.githubusercontent.com/Yuuzi261/AutoFx/main/demo.gif)
 
 ## 🔗Invite to Discord
 
