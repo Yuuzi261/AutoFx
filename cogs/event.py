@@ -19,23 +19,25 @@ class QueueRateLimiter:
         while True:
             coro = await self.queue.get()
             await self.wait_for_rate_limit()
-            try:
-                await coro
-            except Exception as e:
-                print(f"Error processing queue item: {e}")
+            try: await coro
+            except Exception as e: print(f"Error processing queue item: {e}")
             self.queue.task_done()
 
     async def wait_for_rate_limit(self):
         async with self.lock:
             current_time = asyncio.get_event_loop().time()
             if current_time - self.last_check < 1 / self.rate_limit:
-                await asyncio.sleep(1 / self.rate_limit - (current_time - self.last_check))
+                wait_time = 1 / self.rate_limit - (current_time - self.last_check)
+                await asyncio.sleep(wait_time)
+                self.rate_limit = max(1, self.rate_limit * 0.9)  # Gradually reduce rate limit
+            else:
+                self.rate_limit = min(5, self.rate_limit * 1.1)  # Gradually increase rate limit
             self.last_check = asyncio.get_event_loop().time()
 
 class Event(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.rate_limiter = QueueRateLimiter(8)
+        self.rate_limiter = QueueRateLimiter(3)
         self.bot.loop.create_task(self.rate_limiter.process_queue())
 
     @commands.Cog.listener()
