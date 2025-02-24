@@ -11,7 +11,12 @@ log = setup_logger(__name__)
 
 load_dotenv()
 
-bot = commands.Bot(command_prefix=configs['prefix'], intents=discord.Intents.all())
+intents = discord.Intents.default()
+intents.message_content = True
+intents.guilds = True
+intents.messages = True
+
+bot = commands.Bot(command_prefix=configs['prefix'], intents=intents)
 
 
 @bot.event
